@@ -68,10 +68,6 @@ internal class Restarts
 {
     internal static void RestartGame()
     {
-        /*Console.WriteLine("debug1");
-        var Executable = AppDomain.CurrentDomain.BaseDirectory; //https://stackoverflow.com/a/17836681 
-        //game close and not launch again atm
-        Console.WriteLine($"Executable Location Is {Executable}");*/
 #if MELONLOADER
 
 #endif
@@ -79,12 +75,6 @@ internal class Restarts
 #if BEPINEX
 #endif
         Process.Start("steam://rungameid/661130"); //way better lol thanks kirai, though need to figure out if there is a flag to launch VR mode. there is need to add it after.
-        /*Process.Start($"{Executable}\\Mezque\\CvrLauncher.exe"); im going to delete this after i push to github just so i can see the old shitty way trollsmile emoji dscord 
-        var ConsoleHost = Process.GetProcessesByName("conhost");
-        foreach (var process in ConsoleHost)
-        {
-            process.Kill();
-        }*/
         Process.GetCurrentProcess().Kill();
     }
 }
