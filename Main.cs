@@ -28,7 +28,7 @@ namespace CvrRestartKeybind
         {
             Logger.LogMessage($"{AsInfo.Title}: V{AsInfo.Version} Started");
             Logger.LogMessage("Checking For Updates Now.");
-            UpdateNotice.UpdateCheck();
+            UpdateNotice.UpdateCheckBiE();
         }
         internal void Update()
         {
@@ -45,7 +45,7 @@ namespace CvrRestartKeybind
         {
             LoggerInstance.Msg(ConsoleColor.DarkMagenta,$"{AsInfo.Title}: V{AsInfo.Version} Started");
             LoggerInstance.Msg(ConsoleColor.DarkMagenta,"Checking For Updates Now.");
-            UpdateNotice.UpdateCheck();
+            UpdateNotice.UpdateCheckML();
 
         }
         public override void OnUpdate()
@@ -82,24 +82,19 @@ internal class Restarts
 
 #if BEPINEX
 #endif
-        Process.Start("steam://rungameid/661130"); //way better lol thanks kirai, though need to figure out if there is a flag to launch VR mode. there is need to add it after.
+        Process.Start("steam://rungameid/661130");
         Process.GetCurrentProcess().Kill();
     }
 }
 internal class UpdateNotice
 {
-    internal static void UpdateCheck()
+#if BEPINEX
+    internal static void UpdateCheckBiE()
     {
         using var sha = SHA256.Create();
-#if MELONLOADER
-        var gitURL = "https://github.com/Mezque/CvrRestartKeybind/releases/latest/download/MlCvrRestartKeybind.dll";
-        var ModDLL = "Mods//MLMicDotRecolour.dll";
-#endif
 
-#if BEPINEX
         var gitURL = "https://github.com/Mezque/CvrRestartKeybind/releases/latest/download/BiECvrRestartKeybind.dll";
-        var ModDLL = "BepInEx//plugins//BiEMicDotRecolour.dll";
-#endif
+        var ModDLL = $"{AppDomain.CurrentDomain.BaseDirectory}\\BepInEx\\plugins\\BiEMicDotRecolour.dll";
         byte[] DllCur = null;
         byte[] DLLupdate = null;
         using var wc = new WebClient();
@@ -114,57 +109,71 @@ internal class UpdateNotice
         }
         catch (WebException ex)
         {
-#if MELONLOADER
-            MlLogger.Msg(ConsoleColor.DarkMagenta,$"Unable to check for mod update. \n{ex}");
-#endif
-#if BEPINEX
             Console.WriteLine($"Unable to check for mod update. \n{ex}");
-#endif
         }
         try
         {
-            string CurModHash = ComputeHash(sha, DllCur);
-            string UpdateModHash = ComputeHash(sha, DLLupdate);
+            byte[] CurModHash = DllCur;
+            byte[] UpdateModHash = DLLupdate;
 
             if (CurModHash != UpdateModHash)
             {
-#if MELONLOADER
-                MlLogger.Msg(ConsoleColor.DarkMagenta, $"There Is A Mod Update Available At:\n {gitURL}\n Certan Features May NOT Work Until You Update!");
-#endif
-#if BEPINEX
                 Console.Write($"There Is A Mod Update Available At:\n {gitURL}\n Certan Features May NOT Work Until You Update!");
-#endif
             }
             else
             {
-#if MELONLOADER
-                MlLogger.Msg(ConsoleColor.DarkMagenta, "[INFO] No Updates Available. :)");
-#endif
-#if BEPINEX
                 Console.Write("[INFO] No Updates Available. :)");
-#endif
             }
         }
         catch (Exception ex)
         {
-#if MELONLOADER
-            MlLogger.Msg(ConsoleColor.DarkMagenta, $"Failed To Check For Updates:\n{ex}");
-#endif
-#if BEPINEX
             Console.Write($"Failed To Check For Updates:\n{ex}");
+        }
+    }
 #endif
-        }
-    }
-    private static string ComputeHash(HashAlgorithm sha256, byte[] data)
+#if MELONLOADER
+    internal static void UpdateCheckML()
     {
-        byte[] array = sha256.ComputeHash(data);
-        StringBuilder stringBuilder = new StringBuilder();
-        foreach (byte b in array)
+        using var sha = SHA256.Create();
+
+        var gitURL = "https://github.com/Mezque/CvrRestartKeybind/releases/latest/download/MlCvrRestartKeybind.dll";
+        var ModDLL = $"{AppDomain.CurrentDomain.BaseDirectory}\\Mods\\MLMicDotRecolour.dll";
+        byte[] DllCur = null;
+        byte[] DLLupdate = null;
+        using var wc = new WebClient();
+
+        if (File.Exists(ModDLL))
         {
-            stringBuilder.Append(b.ToString("x2"));
+            DllCur = File.ReadAllBytes(ModDLL);
         }
-        return stringBuilder.ToString();
+        try
+        {
+            DLLupdate = wc.DownloadData($"{gitURL}");
+        }
+        catch (WebException ex)
+        {
+            MlLogger.Msg(ConsoleColor.DarkMagenta, $"There Is A Mod Update Available At:\n {gitURL}\n Certan Features May NOT Work Until You Update!");
+        }
+        try
+        {
+            byte[] CurModHash = DllCur;
+            byte[] UpdateModHash = DLLupdate;
+
+            if (CurModHash != UpdateModHash)
+            {
+                Console.Write($"There Is A Mod Update Available At:\n {gitURL}\n Certan Features May NOT Work Until You Update!");
+            }
+            else
+            {
+                MlLogger.Msg(ConsoleColor.DarkMagenta, "[INFO] No Updates Available. :)");
+            }
+        }
+        catch (Exception ex)
+        {
+            MlLogger.Msg(ConsoleColor.DarkMagenta, $"Failed To Check For Updates:\n{ex}");
+        }
     }
+#endif
 }
 #if MELONLOADER
 internal class MlLogger
@@ -177,8 +186,8 @@ internal class MlLogger
 #endif
 internal struct AsInfo
 {
-    internal const string Version = "1.0.0.0";
-    internal const string DevBuild = "1";
+    internal const string Version = "1.1.0.0";
+    internal const string DevBuild = "0";
     internal const string Dev = "Mezque";
     internal const string Title = "Cvr Restart Keybinds";
 }
