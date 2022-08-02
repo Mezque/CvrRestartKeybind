@@ -98,7 +98,7 @@ internal class UpdateNotice
 
 #if BEPINEX
         var gitURL = "https://github.com/Mezque/CvrRestartKeybind/releases/latest/download/BiECvrRestartKeybind.dll";
-        var ModDLL = "BepInEx//plugins//MLMicDotRecolour.dll";
+        var ModDLL = "BepInEx//plugins//BiEMicDotRecolour.dll";
 #endif
         byte[] DllCur = null;
         byte[] DLLupdate = null;
