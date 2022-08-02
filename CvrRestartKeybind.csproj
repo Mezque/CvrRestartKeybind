@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <TargetFramework Condition=" '$(Configuration)' == 'BepInEx' ">netstandard2.1</TargetFramework>
+		<TargetFramework Condition=" '$(Configuration)' == 'Melonloader' ">net472</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+
+
+
+    <Configurations>Debug;Release;Melonloader;BepInEx</Configurations>
+
+
+
+    <IsPublishable>False</IsPublishable>
+
+
+
+    <AssemblyName Condition=" '$(Configuration)' == 'BepInEx' ">BiE$(MSBuildProjectName)</AssemblyName>
+    <AssemblyName Condition=" '$(Configuration)' == 'Melonloader' ">Ml$(MSBuildProjectName)</AssemblyName>
+    <Authors>Mez</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Melonloader|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='BepInEx|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(Configuration)' == 'BepInEx' ">
+    <Reference Include="BepInEx.Core">
+      <HintPath>P:\steam\steamapps\common\ChilloutVR\BepInEx\core\BepInEx.Core.dll</HintPath>
+    </Reference>
+        <Reference Include="BepInEx.Unity">
+      <HintPath>P:\steam\steamapps\common\ChilloutVR\BepInEx\core\BepInEx.Unity.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(Configuration)' == 'Melonloader' ">
+      <Reference Include="MelonLoader">
+      <HintPath>P:\steam\steamapps\common\ChilloutVR\MelonLoader\MelonLoader.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="CvrLauncher\**" />
+    <EmbeddedResource Remove="CvrLauncher\**" />
+    <None Remove="CvrLauncher\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>P:\steam\steamapps\common\ChilloutVR\ChilloutVR_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>P:\steam\steamapps\common\ChilloutVR\ChilloutVR_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>P:\steam\steamapps\common\ChilloutVR\ChilloutVR_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>P:\steam\steamapps\common\ChilloutVR\ChilloutVR_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>P:\steam\steamapps\common\ChilloutVR\ChilloutVR_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Melonloader' ">
+		<Exec Command="xcopy &quot;P:\steam\steamapps\common\ChilloutVR\Mods&quot; /Y /I" />
+  </Target>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'BepInEx' ">
+		<Exec Command="COPY &quot;$(TargetPath)&quot; &quot;P:\steam\steamapps\common\ChilloutVR\BepInEx\plugins&quot; &gt; NUL" />
+  </Target>
+
+
+</Project>
