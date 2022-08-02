@@ -18,6 +18,8 @@ namespace CvrRestartKeybind
 {
 #if BEPINEX
     using BepInEx;
+    using BepInEx.Logging;
+
     [BepInPlugin("com.mezque.cvr.plugin.CvrRestartKeybind", $"{AsInfo.Title}", $"{AsInfo.Version}")]
     [BepInProcess("ChilloutVR.exe")]
 
@@ -109,7 +111,7 @@ internal class UpdateNotice
         }
         catch (WebException ex)
         {
-            Console.WriteLine($"Unable to check for mod update. \n{ex}");
+            Console.Write($"Unable to check for mod update. \n{ex}");
         }
         try
         {
@@ -161,7 +163,7 @@ internal class UpdateNotice
 
             if (CurModHash != UpdateModHash)
             {
-                Console.Write($"There Is A Mod Update Available At:\n {gitURL}\n Certan Features May NOT Work Until You Update!");
+                MlLogger.Msg(ConsoleColor.DarkMagenta, $"There Is A Mod Update Available At:\n {gitURL}\n Certan Features May NOT Work Until You Update!");
             }
             else
             {
@@ -186,7 +188,7 @@ internal class MlLogger
 #endif
 internal struct AsInfo
 {
-    internal const string Version = "1.1.0.0";
+    internal const string Version = "1.1.0.1";
     internal const string DevBuild = "0";
     internal const string Dev = "Mezque";
     internal const string Title = "Cvr Restart Keybinds";
