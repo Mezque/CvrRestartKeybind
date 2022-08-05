@@ -8,17 +8,17 @@
   <summary>Install Guide</summary>
     <details>
         <summary>Melonloader Install Guide</summary>
-             * Install Melonloader (recommended 5.4) from https://github.com/LavaGang/MelonLoader </br>
-            * Head to the repos releases tab and select the MLCvrRestartKeybind.dll </br>
-            * Move the plugin into `Chilloutvr\Mods`</br>
-            * Run the game </br>
+            ‎ ‎ ‎ ‎ • Install Melonloader (recommended 5.4) from https://github.com/LavaGang/MelonLoader </br>
+            ‎ ‎ ‎ ‎ • Head to the repos releases tab and select the MLCvrRestartKeybind.dll </br>
+            ‎ ‎ ‎ ‎ • Move the plugin into `Chilloutvr\Mods`</br>
+            ‎ ‎ ‎ ‎ • Run the game </br>
     </details>
      <details>
         <summary>BepInEx6 Install Guide</summary>
-            * Install BepInEx 6 (mono) from https://builds.bepinex.dev/projects/bepinex_be </br>
-            * Head to the repos releases tab and select the BiECvrRestartKeybind.dll </br>
-            * Move the plugin into `Chilloutvr\bepinex\plugins`</br>
-            * Run the game </br>
+            ‎ ‎ ‎ ‎ • Install BepInEx 6 (mono) from https://builds.bepinex.dev/projects/bepinex_be </br>
+            ‎ ‎ ‎ ‎ • Head to the repos releases tab and select the BiECvrRestartKeybind.dll </br>
+            ‎ ‎ ‎ ‎ • Move the plugin into `Chilloutvr\bepinex\plugins`</br>
+            ‎ ‎ ‎ ‎ • Run the game </br>
     </details>
 
 </details>
